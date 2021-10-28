@@ -1,4 +1,22 @@
-local state = {}
+local state = {
+    ['running'] = true,
+    ['modem'] = nil,
+    ['channel'] = 0
+}
+
+local setRunning = function(running)
+    state.running = running
+end
+
+local printState = function()
+    print("Running: " .. state.running)
+    print("Modem: " .. state.modem)
+    print("Location: " .. state.x .. ", " .. state.y .. ", " .. state.z .. " - Facing " .. state.direction)
+end
+
+local setModem = function(modem)
+    state.modem = modem
+end
 
 local findModem = function()
     for i, side in ipairs(rs.getSides()) do
@@ -16,5 +34,25 @@ local sendMessage = function(destination, message, protocol)
     end
 end
 
-state.modem = findModem()
-sendMessage(46, 'hey')
+local eventLoop = function()
+    while state.running do
+        if state.channel == 0 then
+            print("Enter the slave channel: ")
+            state.channel = read()
+            clear()
+        end
+        local input = read()
+        sendMessage(state.channel, input)
+    end
+end
+
+local networkLoop = function()
+    while state.running do
+        local sender, message, protocol = rednet.receive()
+        print(sender .. " : " .. message)
+    end
+end
+
+setModem(findModem())
+
+parallel.waitForAll()

@@ -26,6 +26,10 @@ local printState = function()
     print("Location: " .. state.x .. ", " .. state.y .. ", " .. state.z .. " - Facing " .. state.direction)
 end
 
+local setModem = function(modem)
+    state.modem = modem
+end
+
 local findModem = function()
     for i, side in ipairs(rs.getSides()) do
         if peripheral.getType(side) == 'modem' then
@@ -40,10 +44,9 @@ local eventLoop = function()
     while state.running do
         local sender, message, protocol = rednet.receive()
         print(sender .. " : " .. message)
-        handlePacket(sender, message, protocol)
         printState()
     end
 end
 
-state.modem = findModem()
+setModem(findModem())
 eventLoop()
