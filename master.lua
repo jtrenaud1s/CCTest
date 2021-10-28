@@ -49,6 +49,7 @@ end
 
 local networkLoop = function()
     while state.running do
+        print("receiving")
         local sender, message, protocol = rednet.receive()
         print(sender .. " : " .. message)
     end
