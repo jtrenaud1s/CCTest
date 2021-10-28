@@ -1,4 +1,30 @@
-local state = {}
+local state = {
+    ['running'] = true,
+    ['modem'] = nil,
+    ['location'] = {
+        ['x'] = nil,
+        ['y'] = nil,
+        ['z'] = nil,
+        ['direction'] = nil
+    }
+}
+
+local setRunning = function(running)
+    state.running = running
+end
+
+local setLocation = function(x, y, z, direction)
+    state.location.x = x
+    state.location.y = y
+    state.location.z = z
+    state.location.direction = direction
+end
+
+local printState = function()
+    print("Running: " .. state.running)
+    print("Modem: " .. state.modem)
+    print("Location: " .. state.x .. ", " .. state.y .. ", " .. state.z .. " - Facing " .. state.direction)
+end
 
 local findModem = function()
     for i, side in ipairs(rs.getSides()) do
@@ -11,9 +37,12 @@ local findModem = function()
 end
 
 local eventLoop = function()
-    local sender, message, protocol = rednet.receive()
-    print(message)
-    return message
+    while state.running do
+        local sender, message, protocol = rednet.receive()
+        print(sender .. " : " .. message)
+        handlePacket(sender, message, protocol)
+        printState()
+    end
 end
 
 state.modem = findModem()
