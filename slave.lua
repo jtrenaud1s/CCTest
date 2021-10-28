@@ -49,4 +49,4 @@ local eventLoop = function()
 end
 
 setModem(findModem())
-eventLoop()
+parallel.waitForAll(eventLoop)

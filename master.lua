@@ -55,4 +55,4 @@ end
 
 setModem(findModem())
 
-parallel.waitForAll()
+parallel.waitForAll(eventLoop, networkLoop)
