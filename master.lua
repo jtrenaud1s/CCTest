@@ -40,7 +40,7 @@ local eventLoop = function()
         if state.channel == 0 then
             print("Enter the slave channel: ")
             state.channel = read()
-            clear()
+            term.clear()
         end
         local input = read()
         sendMessage(state.channel, input)
