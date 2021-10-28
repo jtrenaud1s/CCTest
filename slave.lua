@@ -5,8 +5,7 @@ local findModem = function()
         if peripheral.getType(side) == 'modem' then
             print('Found Modem On Side ' .. side .. "!")
             rednet.open(side)
-            state.modem = peripheral.wrap(side)
-            break
+            return peripheral.wrap(side)
         end
     end
 end
@@ -17,4 +16,5 @@ local eventLoop = function()
     return message
 end
 
+state.modem = findModem()
 eventLoop()
