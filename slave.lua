@@ -21,9 +21,9 @@ local setLocation = function(x, y, z, direction)
 end
 
 local printState = function()
-    print("Running: " .. state.running)
-    print("Modem: " .. state.modem)
-    print("Location: " .. state.x .. ", " .. state.y .. ", " .. state.z .. " - Facing " .. state.direction)
+    print("Running: ", state.running)
+    print("Modem: ", state.modem)
+    print("Location: ", state.x, ", ", state.y, ", ", state.z, " - Facing ", state.direction)
 end
 
 local setModem = function(modem)
@@ -33,7 +33,7 @@ end
 local findModem = function()
     for i, side in ipairs(rs.getSides()) do
         if peripheral.getType(side) == 'modem' then
-            print('Found Modem On Side ' .. side .. "!")
+            print('Found Modem On Side ', side, "!")
             rednet.open(side)
             return peripheral.wrap(side)
         end
@@ -43,10 +43,10 @@ end
 local eventLoop = function()
     while state.running do
         local sender, message, protocol = rednet.receive()
-        print(sender .. " : " .. message)
+        print(sender, " : ", message)
         printState()
     end
 end
 
 setModem(findModem())
-parallel.waitForAll(eventLoop)
+parallel.waitForAny(eventLoop)

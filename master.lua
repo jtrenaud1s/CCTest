@@ -9,9 +9,9 @@ local setRunning = function(running)
 end
 
 local printState = function()
-    print("Running: " .. state.running)
-    print("Modem: " .. state.modem)
-    print("Location: " .. state.x .. ", " .. state.y .. ", " .. state.z .. " - Facing " .. state.direction)
+    print("Running: ", state.running)
+    print("Modem: ", state.modem)
+    print("Sending Channel: ", state.channel)
 end
 
 local setModem = function(modem)
@@ -36,7 +36,6 @@ end
 
 local eventLoop = function()
     while state.running do
-        print("loop")
         if state.channel == 0 then
             print("Enter the slave channel: ")
             state.channel = tonumber(read())
@@ -49,7 +48,6 @@ end
 
 local networkLoop = function()
     while state.running do
-        print("receiving")
         local sender, message, protocol = rednet.receive()
         print(sender .. " : " .. message)
     end
