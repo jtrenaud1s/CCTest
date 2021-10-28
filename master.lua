@@ -36,6 +36,7 @@ end
 
 local eventLoop = function()
     while state.running do
+        print("loop")
         if state.channel == 0 then
             print("Enter the slave channel: ")
             state.channel = read()
