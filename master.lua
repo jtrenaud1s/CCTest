@@ -39,7 +39,7 @@ local eventLoop = function()
         print("loop")
         if state.channel == 0 then
             print("Enter the slave channel: ")
-            state.channel = read()
+            state.channel = tonumber(read())
             term.clear()
         end
         local input = read()
