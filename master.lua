@@ -17,4 +17,4 @@ local sendMessage = function(destination, message, protocol)
 end
 
 state.modem = findModem()
-sendMessage(49, 'hey')
+sendMessage(46, 'hey')
