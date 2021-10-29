@@ -1,14 +1,18 @@
+print("Starting")
 os.loadAPI('lama')
+print("API Loaded")
 -- For Testing, set initial location to 0, 0, 0, south relative position.
 -- This could be an input prompt
 lama.set(0, 0, 0, lama.side.south)
-
+print("Location Zeroed")
 -----------STATE-------------
 local state = {
     ['running'] = true,
     ['modem'] = nil,
     ['status'] = 'idle'
 }
+
+print("State Initialized")
 
 local setRunning = function(running)
     state.running = running
@@ -71,30 +75,24 @@ local mine = function(x, y, z)
 
 end
 
-local handlePacket = function(sender, message, protocol)
-    local tokens = split(message, ';')
-    local command = tokens[1]
-
+local handlePacket = function(sender, command, args)
     if command == "mine" then
-        mine(tokens[2], tokens[3])
+        mine(tonumber(args[1]), tonumber(args[2]), tonumber(args[3]))
     end
 end
 
 local eventLoop = function()
+    print("Event Loop Started")
     while state.running do
         local sender, message, protocol = rednet.receive()
         local tokens = split(message)
-        if tokens[1] == "forward" then
-            print(tokens[2])
-            local count = tonumber(tokens[2]) or 1
-            for i = 0, count do
-                print(count, i)
-                print(turtle.forward())
-            end
-        end
+        local command = table.remove(tokens, 1)
+        handlePacket(sender, command, tokens)
     end
 end
 
+print("Finding Modem")
 setModem(findModem())
 printState()
+print("Starting Event Loop")
 parallel.waitForAny(eventLoop)
