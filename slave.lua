@@ -1,7 +1,7 @@
 os.loadAPI('lama')
 -- For Testing, set initial location to 0, 0, 0, south relative position.
 -- This could be an input prompt
-lama.set(0, 0, 0, side.south)
+lama.set(0, 0, 0, lama.side.south)
 
 -----------STATE-------------
 local state = {
