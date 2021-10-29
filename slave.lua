@@ -7,16 +7,21 @@ lama.set(0, 0, 0, lama.side.south)
 local state = {
     ['running'] = true,
     ['modem'] = nil,
-    ['status'] = 'mining'
+    ['status'] = 'idle'
 }
 
 local setRunning = function(running)
     state.running = running
 end
 
+local setStatus = function(status)
+    state.status = status
+end
+
 local printState = function()
     print("Running: ", state.running)
     print("Modem: ", state.modem)
+    print("Status: ", state.status)
     print("Location: ", lama.getX(), ", ", lama.getY(), ", ", lama.getZ(), " - Facing ", lama.facing())
 end
 
@@ -91,4 +96,5 @@ local eventLoop = function()
 end
 
 setModem(findModem())
+printState()
 parallel.waitForAny(eventLoop)
